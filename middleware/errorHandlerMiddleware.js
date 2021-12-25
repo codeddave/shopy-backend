@@ -1,4 +1,4 @@
-const errorhandler = (error, req, res, next) => {
+const errorHandler = (error, req, res, next) => {
   if (req.headerSent) {
     return next(error);
   }
@@ -6,4 +6,4 @@ const errorhandler = (error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occured." });
 };
 
-module.exports = errorhandler;
+module.exports = errorHandler;
