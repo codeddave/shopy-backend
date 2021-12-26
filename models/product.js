@@ -14,7 +14,11 @@ const ProductSchema = new mongoose.Schema({
   },
 
   brand: { type: String, default: "" },
-  numberInStock: { type: Number, required: true },
+  numberInStock: { type: Number, required: true, min: 0 },
+  rating: { type: Number },
+  reviewsNumber: { type: Number, default: 0 },
+  isFeatured: { type: Boolean, default: false },
+  dateCreated: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Product", ProductSchema);
