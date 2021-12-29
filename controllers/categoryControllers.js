@@ -28,6 +28,19 @@ const getCategories = async (req, res, next) => {
     );
   }
 };
+const getCategory = async (req, res, next) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) return next(new HttpError("Category not found", 404));
+
+    res.status(200).json(category);
+  } catch (error) {
+    return next(
+      new HttpError(error.message, 500)
+      // new HttpError("Could not get categories, try again later", 404)
+    );
+  }
+};
 
 const deleteCategory = async (req, res, next) => {
   const { id: _id } = req.params;
@@ -46,3 +59,4 @@ const deleteCategory = async (req, res, next) => {
 exports.createCategory = createCategory;
 exports.getCategories = getCategories;
 exports.deleteCategory = deleteCategory;
+exports.getCategory = getCategory;
