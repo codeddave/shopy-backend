@@ -44,7 +44,9 @@ const createProduct = async (req, res, next) => {
       reviewsNumber,
       isFeatured,
     });
-  } catch (error) {}
+  } catch (error) {
+    return next(new HttpError(error.message, 409));
+  }
 };
 
 exports.createProduct = createProduct;
