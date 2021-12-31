@@ -49,5 +49,20 @@ const createProduct = async (req, res, next) => {
   }
 };
 
+const deleteProduct = async (req, res, next) => {
+  const { id: _id } = req.params;
+
+  try {
+    const product = await Product.findByIdAndRemove(_id);
+    if (product) {
+      return res.status(200).json({ message: "product deleted successfully" });
+    } else {
+      return next(new HttpError("product not found", 404));
+    }
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
 exports.createProduct = createProduct;
 exports.getProducts = getProducts;
+exports.deleteProduct = deleteProduct;
