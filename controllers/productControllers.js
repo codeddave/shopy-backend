@@ -34,6 +34,16 @@ const getProductCount = async (req, res, next) => {
     return next(new HttpError(error.message, 500));
   }
 };
+
+const getFeaturedproducts = async (req, res, next) => {
+  try {
+    const featuredProducts = await Product.find({ isFeatured: true });
+
+    res.status(200).json(featuredProducts);
+  } catch (error) {
+    return next(new HttpError("Could not get featured Products", 500));
+  }
+};
 const createProduct = async (req, res, next) => {
   const {
     name,
@@ -142,3 +152,4 @@ exports.deleteProduct = deleteProduct;
 exports.updateProduct = updateProduct;
 exports.getProduct = getProduct;
 exports.getProductCount = getProductCount;
+exports.getFeaturedproducts = getFeaturedproducts;
