@@ -36,8 +36,14 @@ const getProductCount = async (req, res, next) => {
 };
 
 const getFeaturedproducts = async (req, res, next) => {
+  const { limit } = req.params;
   try {
-    const featuredProducts = await Product.find({ isFeatured: true });
+    let featuredProducts;
+    if (limit) {
+      featuredProducts = await Product.find({ isFeatured: true }).limit(+limit);
+    } else {
+      featuredProducts = await Product.find({ isFeatured: true });
+    }
 
     res.status(200).json(featuredProducts);
   } catch (error) {
