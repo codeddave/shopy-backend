@@ -22,6 +22,18 @@ const getProduct = async (req, res, next) => {
   }
 };
 
+const getProductCount = async (req, res, next) => {
+  try {
+    const productCount = await Product.countDocuments((count) => count);
+
+    if (!productCount)
+      return next(new HttpError("could not get product count", 404));
+
+    res.status(200).json(productCount);
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
 const createProduct = async (req, res, next) => {
   const {
     name,
@@ -119,7 +131,6 @@ const updateProduct = async (req, res, next) => {
       },
       { new: true }
     );
-
     res.status(201).json(updatedProduct);
   } catch (error) {
     return next(new HttpError(error.message, 500));
@@ -130,3 +141,4 @@ exports.getProducts = getProducts;
 exports.deleteProduct = deleteProduct;
 exports.updateProduct = updateProduct;
 exports.getProduct = getProduct;
+exports.getProductCount = getProductCount;
