@@ -3,9 +3,16 @@ const Category = require("../models/category");
 const HttpError = require("../models/httpError");
 
 const getProducts = async (req, res, next) => {
+  const { categories } = req.query;
+
+  let filter = {};
+  if (categories) {
+    filter = { category: categories.split(",") };
+  }
+
   try {
-    const product = await Product.find();
-    res.status(200).json(product);
+    const products = Product.find(filter).populate("category");
+    res.status(200).json(products);
   } catch (error) {
     return next(new HttpError(error.message, 404));
   }
@@ -50,18 +57,23 @@ const getFeaturedProducts = async (req, res, next) => {
     return next(new HttpError("Could not get featured Products", 500));
   }
 };
+/* 
+const getProductsByCategory = async (req, res, next) => {
+  const { categories } = req.query;
 
-const getProductsByCategory = async(req, res, next)=> {
-    const {categories} = req.query
+  let filter = {};
+  if (categories) {
+    filter = { category: categories.split(",") };
+  }
 
-    try {
-        await Product.find({category: }).populate('category')
-
-        
-    } catch (error) {
-        
-    }
-}
+  try {
+    const filteredProducts = await Product.find(filter).populate("category");
+    if (!filteredProducts) return next(new HttpError("No products found", 404));
+    res.status(200).json(filteredProducts);
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+}; */
 const createProduct = async (req, res, next) => {
   const {
     name,
@@ -171,3 +183,4 @@ exports.updateProduct = updateProduct;
 exports.getProduct = getProduct;
 exports.getProductCount = getProductCount;
 exports.getFeaturedProducts = getFeaturedProducts;
+exports.getProductsByCategory = getProductsByCategory;
