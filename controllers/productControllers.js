@@ -11,6 +11,17 @@ const getProducts = async (req, res, next) => {
   }
 };
 
+const getProduct = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const product = await Product.findById(id);
+    if (!product) return next(new HttpError("Product  does not exist", 404));
+    res.status(200).json(product);
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
+
 const createProduct = async (req, res, next) => {
   const {
     name,
@@ -118,3 +129,4 @@ exports.createProduct = createProduct;
 exports.getProducts = getProducts;
 exports.deleteProduct = deleteProduct;
 exports.updateProduct = updateProduct;
+exports.getProduct = getProduct;
