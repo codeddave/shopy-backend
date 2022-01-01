@@ -50,6 +50,18 @@ const getFeaturedProducts = async (req, res, next) => {
     return next(new HttpError("Could not get featured Products", 500));
   }
 };
+
+const getProductsByCategory = async(req, res, next)=> {
+    const {categories} = req.query
+
+    try {
+        await Product.find({category: }).populate('category')
+
+        
+    } catch (error) {
+        
+    }
+}
 const createProduct = async (req, res, next) => {
   const {
     name,
