@@ -35,7 +35,7 @@ const getProductCount = async (req, res, next) => {
   }
 };
 
-const getFeaturedproducts = async (req, res, next) => {
+const getFeaturedProducts = async (req, res, next) => {
   const { limit } = req.params;
   try {
     let featuredProducts;
@@ -158,4 +158,4 @@ exports.deleteProduct = deleteProduct;
 exports.updateProduct = updateProduct;
 exports.getProduct = getProduct;
 exports.getProductCount = getProductCount;
-exports.getFeaturedproducts = getFeaturedproducts;
+exports.getFeaturedProducts = getFeaturedProducts;
