@@ -3,7 +3,12 @@ const HttpError = require("../models/httpError");
 
 const signUp = async (req, res, next) => {
   const { email, password } = req.body;
+
   try {
+    const userExists = await User.findOne({ email });
+
+    if (userExists) return next(new HttpError("user exists!", 401));
+
     await User.create({
       email,
       password,
@@ -16,5 +21,13 @@ const signUp = async (req, res, next) => {
     );
   }
 };
+
+const signIn = (async = (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return next(new HttpError("Please provide email and password"), 400);
+  try {
+  } catch (error) {}
+});
 
 exports.signUp = signUp;
