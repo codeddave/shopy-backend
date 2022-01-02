@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const HttpError = require("../models/httpError");
+const jwt = require("jsonwebtoken");
 
 const signUp = async (req, res, next) => {
   const { email, password } = req.body;
@@ -9,12 +10,20 @@ const signUp = async (req, res, next) => {
 
     if (userExists) return next(new HttpError("user exists!", 401));
 
-    await User.create({
+    const user = await User.create({
       email,
       password,
     });
 
-    res.status(201).json();
+    const token = jwt.sign(
+      {
+        email: user.email,
+        id: user._id,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1hr" }
+    );
+    res.status(201).json(token);
   } catch (error) {
     return next(
       new HttpError("Account could not be created at this time", 409)
