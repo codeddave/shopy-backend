@@ -15,7 +15,27 @@ const UserSchema = new mongoose.Schema({
     minLength: 6,
     select: false,
   },
-  phone: Number,
+  phone: { type: String, required: true },
+  isAdmin: { type: Boolean, default: false },
+  street: { type: String, default: "" },
+  apartment: { type: String, default: "" },
+  zip: { type: String, default: "" },
+  city: { type: String, default: "" },
+  country: { type: String, default: "" },
 });
+
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+UserSchema.methods.matchPasswords = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model("User", UserSchema);
