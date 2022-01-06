@@ -36,7 +36,27 @@ const signIn = (async = (req, res, next) => {
   if (!email || !password)
     return next(new HttpError("Please provide email and password"), 400);
   try {
-  } catch (error) {}
+    const user = await User.findOne({ email });
+
+    if (!user) return next(new HttpError("User does not exist!", 404));
+
+    const passwordsMatch = user.matchPasswords(password);
+    if (!passwordsMatch) return next(new HttpError("Invalid credentials", 404));
+
+    const token = jwt.sign(
+      {
+        email: user.email,
+        id: user._id,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+
+      { expiresIn: "1hr" }
+    );
+    res.status(200).json(token);
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
 });
 
 exports.signUp = signUp;
+exports.signIn = signIn;
