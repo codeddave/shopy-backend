@@ -53,7 +53,7 @@ const signIn = (async = (req, res, next) => {
   if (!email || !password)
     return next(new HttpError("Please provide email and password"), 400);
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) return next(new HttpError("User does not exist!", 404));
 
