@@ -3,7 +3,17 @@ const HttpError = require("../models/httpError");
 const jwt = require("jsonwebtoken");
 
 const signUp = async (req, res, next) => {
-  const { email, password } = req.body;
+  const {
+    email,
+    password,
+    phone,
+    isAdmin,
+    street,
+    city,
+    apartment,
+    zip,
+    country,
+  } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -13,6 +23,13 @@ const signUp = async (req, res, next) => {
     const user = await User.create({
       email,
       password,
+      phone,
+      isAdmin,
+      street,
+      city,
+      apartment,
+      zip,
+      country,
     });
 
     const token = jwt.sign(
