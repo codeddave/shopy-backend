@@ -6,7 +6,9 @@ const authJwt = () => {
     algorithms: ["HS256"],
   }).unless({
     path: [
-      { url: "/products", methods: ["GET", "OPTIONS"] },
+      { url: /\/products(.*)/, methods: ["GET", "OPTIONS"] },
+      { url: /\/categories(.*)/, methods: ["GET", "OPTIONS"] },
+
       "/user/login",
       "/user/register",
     ],
