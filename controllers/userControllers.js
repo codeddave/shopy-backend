@@ -36,6 +36,7 @@ const register = async (req, res, next) => {
       {
         email: user.email,
         id: user._id,
+        isAdim: user.isAdmin,
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1hr" }
@@ -64,6 +65,7 @@ const login = (async = (req, res, next) => {
       {
         email: user.email,
         id: user._id,
+        isAdim: user.isAdmin,
       },
       process.env.ACCESS_TOKEN_SECRET,
 
