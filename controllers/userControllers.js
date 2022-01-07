@@ -2,7 +2,7 @@ const User = require("../models/user");
 const HttpError = require("../models/httpError");
 const jwt = require("jsonwebtoken");
 
-const signUp = async (req, res, next) => {
+const register = async (req, res, next) => {
   const {
     email,
     password,
@@ -48,7 +48,7 @@ const signUp = async (req, res, next) => {
   }
 };
 
-const signIn = (async = (req, res, next) => {
+const login = (async = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password)
     return next(new HttpError("Please provide email and password"), 400);
@@ -75,5 +75,11 @@ const signIn = (async = (req, res, next) => {
   }
 });
 
-exports.signUp = signUp;
-exports.signIn = signIn;
+const getUsers = async (req, res, next) => {};
+
+const getUser = async (req, res, next) => {};
+
+exports.register = register;
+exports.login = login;
+exports.getUsers = getUsers;
+exports.getUser = getUser;
