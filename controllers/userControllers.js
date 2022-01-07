@@ -75,9 +75,29 @@ const login = (async = (req, res, next) => {
   }
 });
 
-const getUsers = async (req, res, next) => {};
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find();
 
-const getUser = async (req, res, next) => {};
+    res.status(200).json(users);
+  } catch (error) {
+    return next(new HttpError(error.message, 404));
+  }
+};
+
+const getUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) return next(new HttpError("User does not exist", 404));
+
+    res.status(200).json(user);
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
 
 exports.register = register;
 exports.login = login;
