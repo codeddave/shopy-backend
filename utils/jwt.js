@@ -4,6 +4,8 @@ const authJwt = () => {
   return expressjwt({
     secret: process.env.ACCESS_TOKEN_SECRET,
     algorithms: ["HS256"],
+  }).unless({
+    path: ["/user/login", "/user/register"],
   });
 };
 
