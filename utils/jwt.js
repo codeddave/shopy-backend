@@ -5,7 +5,11 @@ const authJwt = () => {
     secret: process.env.ACCESS_TOKEN_SECRET,
     algorithms: ["HS256"],
   }).unless({
-    path: ["/user/login", "/user/register"],
+    path: [
+      { url: "/products", methods: ["GET", "OPTIONS"] },
+      "/user/login",
+      "/user/register",
+    ],
   });
 };
 
