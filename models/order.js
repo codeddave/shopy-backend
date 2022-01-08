@@ -15,7 +15,6 @@ const OrderSchema = new mongoose.Schema({
   },
   shippingAddress2: {
     type: String,
-    required: true,
   },
 
   street: { type: String, required: true },
@@ -23,6 +22,27 @@ const OrderSchema = new mongoose.Schema({
   zip: { type: String, required: true },
   city: { type: String, required: true },
   country: { type: String, required: true },
+  phone: {
+    type: Number,
+    required: true,
+  },
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+    default: "Pending",
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  orderDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Order", OrderSchema);
