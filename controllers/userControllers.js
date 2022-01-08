@@ -112,8 +112,23 @@ const getUserCount = async (req, res, next) => {
   }
 };
 
+const deleteUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByIdAndRemove(id);
+    if (user) {
+      return res.status(200).json({ message: "user deleted successfully" });
+    } else {
+      return next(new HttpError("user not found", 404));
+    }
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
+
 exports.register = register;
 exports.login = login;
 exports.getUsers = getUsers;
 exports.getUser = getUser;
 exports.getUserCount = getUserCount;
+exports.deleteUser = deleteUser;
