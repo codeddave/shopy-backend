@@ -100,8 +100,20 @@ const getUser = async (req, res, next) => {
     return next(new HttpError(error.message, 500));
   }
 };
+const getUserCount = async (req, res, next) => {
+  try {
+    const userCount = await User.countDocuments((count) => count);
+    if (!userCount)
+      return next(new HttpError("Could not retrieve user count", 404));
+
+    res.status(200).json(userCount);
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
 
 exports.register = register;
 exports.login = login;
 exports.getUsers = getUsers;
 exports.getUser = getUser;
+exports.getUserCount = getUserCount;
