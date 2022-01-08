@@ -1,6 +1,8 @@
 const HttpError = require("../models/httpError");
 const Order = require("../models/order");
 
+const OrderItem = require("../models/orderItem");
+
 const getOrders = async (req, res, next) => {
   try {
     const orders = await Order.find();
@@ -21,8 +23,22 @@ const createOrder = async (req, res, next) => {
     country,
     phone,
     user,
+    orderItems,
   } = req.body;
 
+  const orderItemIds = Promise.all(
+    orderItems.map(async (orderItem) => {
+      const newOrderItem = await Order.create({
+        quantity: orderItem.quantity,
+        product: orderItem.product,
+      });
+
+      return newOrderItem._id;
+    })
+  );
+
+  const orderItemIdsResolved = await orderItemIds;
+  console.log(orderItemIds);
   try {
     const order = await Order.create({
       shippingAddress1,
@@ -33,6 +49,7 @@ const createOrder = async (req, res, next) => {
       country,
       phone,
       user,
+      orderItems: orderItemIdsResolved,
     });
 
     res.status(201).json(order);
