@@ -100,7 +100,22 @@ const updateOrder = async (req, res, next) => {
     return next(new HttpError(error.message, 409));
   }
 };
+const deleteOrder = async (req, res, next) => {
+  const { id: _id } = req.params;
 
+  try {
+    const order = await Order.findByIdAndRemove(_id);
+    if (order) {
+      return res.status(200).json({ message: "order deleted successfully" });
+    } else {
+      return next(new HttpError("order not found", 404));
+    }
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
+
+const deleteOrder = deleteOrder;
 exports.getOrders = getOrders;
 exports.getOrder = getOrder;
 
