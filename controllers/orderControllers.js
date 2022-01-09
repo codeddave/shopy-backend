@@ -5,7 +5,9 @@ const OrderItem = require("../models/orderItem");
 
 const getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find().populate("user", "name");
+    const orders = await Order.find()
+      .populate("user", "name")
+      .populate("orderItems");
 
     //get just namme of user
     //const orders = await Order.find().populate("user", 'name');
