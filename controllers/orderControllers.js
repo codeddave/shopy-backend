@@ -21,6 +21,18 @@ const getOrders = async (req, res, next) => {
     return next(new HttpError(error.message, 404));
   }
 };
+const getOrder = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const order = await Order.findById(id)
+      .populate("user", "name")
+      .populate({ path: "orderItems", populate: "product" });
+
+    res.status(200).json(order);
+  } catch (error) {
+    return next(new HttpError(error.message, 404));
+  }
+};
 
 const createOrder = async (req, res, next) => {
   const {
@@ -68,4 +80,6 @@ const createOrder = async (req, res, next) => {
 };
 
 exports.getOrders = getOrders;
+exports.getOrder = getOrder;
+
 exports.createOrder = createOrder;
