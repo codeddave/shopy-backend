@@ -7,7 +7,7 @@ const getOrders = async (req, res, next) => {
   try {
     const orders = await Order.find()
       .populate("user", "name")
-      .populate("orderItems");
+      .populate({ path: "orderItems", populate: "product" });
 
     //get just namme of user
     //const orders = await Order.find().populate("user", 'name');
