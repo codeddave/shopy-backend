@@ -37,7 +37,7 @@ const createOrder = async (req, res, next) => {
 
   const orderItemIds = Promise.all(
     orderItems.map(async (orderItem) => {
-      const newOrderItem = await Order.create({
+      const newOrderItem = await OrderItem.create({
         quantity: orderItem.quantity,
         product: orderItem.product,
       });
