@@ -79,7 +79,30 @@ const createOrder = async (req, res, next) => {
   }
 };
 
+const updateOrder = async (req, res, next) => {
+  const { id: _id } = req.params;
+  const { status } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(404).send("No order with that id");
+  }
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      _id,
+      {
+        status,
+      },
+      { new: true }
+    );
+
+    res.status(201).json(updatedOrder);
+  } catch (error) {
+    return next(new HttpError(error.message, 409));
+  }
+};
+
 exports.getOrders = getOrders;
 exports.getOrder = getOrder;
 
 exports.createOrder = createOrder;
+exports.updateOrder = updateOrder;
