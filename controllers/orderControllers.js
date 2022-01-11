@@ -130,9 +130,23 @@ const deleteOrder = async (req, res, next) => {
   }
 };
 
+const getOrderCount = async (req, res, next) => {
+  try {
+    const orderCount = await Order.countDocuments((count) => count);
+
+    if (!orderCount)
+      return next(new HttpError("could not get order count", 404));
+
+    res.status(200).json(orderCount);
+  } catch (error) {
+    return next(new HttpError(error.message, 500));
+  }
+};
+
 const deleteOrder = deleteOrder;
 exports.getOrders = getOrders;
 exports.getOrder = getOrder;
+exports.getOrderCount = getOrderCount;
 
 exports.createOrder = createOrder;
 exports.updateOrder = updateOrder;
