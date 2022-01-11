@@ -63,10 +63,12 @@ const createOrder = async (req, res, next) => {
   const totalPricesOfItems = await Promise.all(
     orderItemIdsResolved.map(async (item) => {
       const orderItem = await OrderItem.findById(item).populate("product");
-      const totalPrice = orderItem.product.price * orderItem.product.quantity;
+      const totalPrice = orderItem.product.price * orderItem.quantity;
       return totalPrice;
     })
   );
+
+  const totalPrice = totalPricesOfItems.reduce((a, b) => a + b, 0);
 
   try {
     const order = await Order.create({
@@ -78,6 +80,7 @@ const createOrder = async (req, res, next) => {
       country,
       phone,
       user,
+      totalPrice,
       orderItems: orderItemIdsResolved,
     });
 
