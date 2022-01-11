@@ -59,7 +59,15 @@ const createOrder = async (req, res, next) => {
   );
 
   const orderItemIdsResolved = await orderItemIds;
-  console.log(orderItemIds);
+
+  const totalPricesOfItems = await Promise.all(
+    orderItemIdsResolved.map(async (item) => {
+      const orderItem = await OrderItem.findById(item).populate("product");
+      const totalPrice = orderItem.product.price * orderItem.product.quantity;
+      return totalPrice;
+    })
+  );
+
   try {
     const order = await Order.create({
       shippingAddress1,
