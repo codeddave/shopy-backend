@@ -105,7 +105,11 @@ const deleteOrder = async (req, res, next) => {
 
   try {
     const order = await Order.findByIdAndRemove(_id);
+
     if (order) {
+      order.orderItems.map(async (itemId) => {
+        await OrderItem.findByIdAndRemove(itemId);
+      });
       return res.status(200).json({ message: "order deleted successfully" });
     } else {
       return next(new HttpError("order not found", 404));
