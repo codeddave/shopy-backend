@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 const Category = require("../models/category");
 const HttpError = require("../models/httpError");
-
+const multer = require("multer");
 const getProducts = async (req, res, next) => {
   const { categories } = req.query;
 
