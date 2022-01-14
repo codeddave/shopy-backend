@@ -2,6 +2,7 @@ const Product = require("../models/product");
 const Category = require("../models/category");
 const HttpError = require("../models/httpError");
 const multer = require("multer");
+
 const getProducts = async (req, res, next) => {
   const { categories } = req.query;
 
@@ -75,10 +76,11 @@ const getProductsByCategory = async (req, res, next) => {
   }
 }; */
 const createProduct = async (req, res, next) => {
+  const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
+  const fileName = req.file.filename;
   const {
     name,
     price,
-    image,
     images,
     description,
     richDescription,
@@ -96,7 +98,7 @@ const createProduct = async (req, res, next) => {
     await Product.create({
       name,
       price,
-      image,
+      image: `${basePath}/${fileName}`,
       images,
       description,
       richDescription,
