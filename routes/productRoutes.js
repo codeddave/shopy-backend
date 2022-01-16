@@ -2,6 +2,7 @@ const express = require("express");
 const productControllers = require("../controllers/productControllers");
 const router = express.Router();
 const multer = require("multer");
+const HttpError = require("../models/httpError");
 
 const FILE_TYPE_MAP = {
   "image/png": "png",
@@ -11,7 +12,12 @@ const FILE_TYPE_MAP = {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const isValid = FILE_TYPE_MAP[file.mimetype];
-    cb(null, "public/uploads");
+
+    let uploadError = new HttpError("file format not supported");
+    if (isValid) {
+      uploadError = null;
+    }
+    cb(uploadError, "public/uploads");
   },
   filename: function (req, file, cb) {
     const fileName = file.originalname.replace(" ", "-");
