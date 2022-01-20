@@ -78,7 +78,7 @@ const getProductsByCategory = async (req, res, next) => {
 const createProduct = async (req, res, next) => {
   const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
   const file = req.file
-  if (!file) return next(new HttpError("Please provide an image", 409));
+  if (!file) return next(new HttpError("Please provide an image", 400));
 
   if(!file) 
   const fileName = req.file.filename;
@@ -98,7 +98,7 @@ const createProduct = async (req, res, next) => {
 
   try {
     const category = await Category.findById(categoryId);
-    if (!category) return next(new HttpError("No category with that Id", 404));
+    if (!category) return next(new HttpError("No category with that Id", 400));
     await Product.create({
       name,
       price,
