@@ -77,6 +77,10 @@ const getProductsByCategory = async (req, res, next) => {
 }; */
 const createProduct = async (req, res, next) => {
   const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
+  const file = req.file
+  if (!file) return next(new HttpError("Please provide an image", 409));
+
+  if(!file) 
   const fileName = req.file.filename;
   const {
     name,
