@@ -201,24 +201,30 @@ export const updateProductImageGallery = (req, res, next) => {
   if (!product) {
     return next(new HttpError("product not found", 404));
   }
+
+  const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
+
 let imagePaths = []
   const files = req.files
 
   files.map(file => {
-    imagePaths.push(file.fileName)
+    imagePaths.push(`${basePath}/${file.fileName}`)
   })
 
   try {
-
     const product = await Product.findByIdAndUpdate(_id, {
-
       images: imagePaths
 
     }, {
       new:true
     })
+
+    res.status(201).json(product);
+
     
   } catch (error) {
+    return next(new HttpError(error.message, 500));
+
     
   }
 }
