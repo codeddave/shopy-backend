@@ -40,6 +40,14 @@ router.post(
 );
 
 router.delete("/:id", productControllers.deleteProduct);
-router.put("/:id", productControllers.updateProduct);
-
+router.put(
+  "/:id",
+  uploadOptions.single("image"),
+  productControllers.updateProduct
+);
+router.put(
+  "/gallery-images/:id",
+  uploadOptions.array("images, 10"),
+  productControllers.updateProductImageGallery
+);
 module.exports = router;
