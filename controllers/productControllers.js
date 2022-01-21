@@ -151,6 +151,18 @@ const updateProduct = async (req, res, next) => {
 
   try {
     const product = await Product.findById(_id);
+    const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
+
+    const file = req.file
+
+    let imagePath; 
+
+
+    if(file){
+      imagePath = `${basePath}/${file.fileName}`
+    } else {
+      imagePath = product.image
+    }
     if (!product) {
       return next(new HttpError("product not found", 404));
     }
@@ -164,7 +176,7 @@ const updateProduct = async (req, res, next) => {
       {
         name,
         price,
-        image,
+        image: imagePath,
         images,
         description,
         richDescription,
