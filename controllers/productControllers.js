@@ -204,7 +204,7 @@ export const updateProductImageGallery = (req, res, next) => {
 
   const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
 
-let imagePaths = []
+  let imagePaths = []
   const files = req.files
 
   files.map(file => {
@@ -213,9 +213,10 @@ let imagePaths = []
 
   try {
     const product = await Product.findByIdAndUpdate(_id, {
-      images: imagePaths
+      images: imagePaths 
 
-    }, {
+    }, 
+    {
       new:true
     })
 
