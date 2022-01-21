@@ -150,7 +150,9 @@ const updateProduct = async (req, res, next) => {
   } = req.body;
 
   try {
-    const product = await Product.findById(_id);
+    const product = await Product.findById(_id);  if (!product) {
+      return next(new HttpError("product not found", 404));
+    }
     const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
 
     const file = req.file
@@ -163,13 +165,11 @@ const updateProduct = async (req, res, next) => {
     } else {
       imagePath = product.image
     }
-    if (!product) {
-      return next(new HttpError("product not found", 404));
-    }
-    const category = await Category.findById(categoryId);
+  
+    const category = await Category.findById(categoryId); 
     if (!category) {
       return next(new HttpError("category not found", 404));
-    }
+}
 
     const updatedProduct = await Product.findByIdAndUpdate(
       _id,
@@ -194,6 +194,34 @@ const updateProduct = async (req, res, next) => {
     return next(new HttpError(error.message, 500));
   }
 };
+
+export const updateProductImageGallery = (req, res, next) => {
+  const { id: _id } = req.params;
+  const product = await Product.findById(_id);
+  if (!product) {
+    return next(new HttpError("product not found", 404));
+  }
+let imagePaths = []
+  const files = req.files
+
+  files.map(file => {
+    imagePaths.push(file.fileName)
+  })
+
+  try {
+
+    const product = await Product.findByIdAndUpdate(_id, {
+
+      images: imagePaths
+
+    }, {
+      new:true
+    })
+    
+  } catch (error) {
+    
+  }
+}
 exports.createProduct = createProduct;
 exports.getProducts = getProducts;
 exports.deleteProduct = deleteProduct;
@@ -202,3 +230,4 @@ exports.getProduct = getProduct;
 exports.getProductCount = getProductCount;
 exports.getFeaturedProducts = getFeaturedProducts;
 exports.getProductsByCategory = getProductsByCategory;
+exports.updateProductImageGallery = updateProductImageGallery
