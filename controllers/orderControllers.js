@@ -162,6 +162,5 @@ exports.getOrders = getOrders;
 exports.getOrder = getOrder;
 exports.getOrderCount = getOrderCount;
 exports.getTotalSales = getTotalSales;
-
 exports.createOrder = createOrder;
 exports.updateOrder = updateOrder;
