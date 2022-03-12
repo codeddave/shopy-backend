@@ -99,7 +99,7 @@ const createProduct = async (req, res, next) => {
   try {
     const category = await Category.findById(categoryId);
     if (!category) return next(new HttpError("No category with that Id", 400));
-    await Product.create({
+   const product =  await Product.create({
       name,
       price,
       image: `${basePath}/${fileName}`,
@@ -113,6 +113,11 @@ const createProduct = async (req, res, next) => {
       reviewsNumber,
       isFeatured,
     });
+
+    await product.save();
+
+    res.status(201).json(product)
+
   } catch (error) {
     return next(new HttpError(error.message, 409));
   }
