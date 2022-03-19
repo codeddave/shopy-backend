@@ -83,6 +83,7 @@ const createOrder = async (req, res, next) => {
       totalPrice,
       orderItems: orderItemIdsResolved,
     });
+    await order.save();
 
     res.status(201).json(order);
   } catch (error) {
@@ -157,7 +158,7 @@ const getTotalSales = (async = (req, res, next) => {
     return next(new HttpError(error.message, 500));
   }
 });
-const deleteOrder = deleteOrder;
+exports.deleteOrder = deleteOrder;
 exports.getOrders = getOrders;
 exports.getOrder = getOrder;
 exports.getOrderCount = getOrderCount;
