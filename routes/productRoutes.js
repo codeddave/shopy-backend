@@ -47,7 +47,7 @@ router.put(
 );
 router.put(
   "/gallery-images/:id",
-  uploadOptions.array("images, 10"),
+  uploadOptions.array("images, 4"),
   productControllers.updateProductImageGallery
 );
 module.exports = router;
