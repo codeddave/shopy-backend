@@ -31,6 +31,7 @@ const register = async (req, res, next) => {
       zip,
       country,
     });
+    await user.save();
 
     const token = jwt.sign(
       {
