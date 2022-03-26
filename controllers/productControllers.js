@@ -77,10 +77,9 @@ const getProductsByCategory = async (req, res, next) => {
 }; */
 const createProduct = async (req, res, next) => {
   const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
-  const file = req.file
+  const file = req.file;
   if (!file) return next(new HttpError("Please provide an image", 400));
 
-  if(!file) 
   const fileName = req.file.filename;
   const {
     name,
@@ -99,7 +98,7 @@ const createProduct = async (req, res, next) => {
   try {
     const category = await Category.findById(categoryId);
     if (!category) return next(new HttpError("No category with that Id", 400));
-   const product =  await Product.create({
+    const product = await Product.create({
       name,
       price,
       image: `${basePath}/${fileName}`,
@@ -115,9 +114,7 @@ const createProduct = async (req, res, next) => {
     });
 
     await product.save();
-
-    res.status(201).json(product)
-
+    res.status(201).json(product);
   } catch (error) {
     return next(new HttpError(error.message, 409));
   }
@@ -155,26 +152,26 @@ const updateProduct = async (req, res, next) => {
   } = req.body;
 
   try {
-    const product = await Product.findById(_id);  if (!product) {
+    const product = await Product.findById(_id);
+    if (!product) {
       return next(new HttpError("product not found", 404));
     }
     const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
 
-    const file = req.file
+    const file = req.file;
 
-    let imagePath; 
+    let imagePath;
 
-
-    if(file){
-      imagePath = `${basePath}/${file.fileName}`
+    if (file) {
+      imagePath = `${basePath}/${file.fileName}`;
     } else {
-      imagePath = product.image
+      imagePath = product.image;
     }
-  
-    const category = await Category.findById(categoryId); 
+
+    const category = await Category.findById(categoryId);
     if (!category) {
       return next(new HttpError("category not found", 404));
-}
+    }
 
     const updatedProduct = await Product.findByIdAndUpdate(
       _id,
@@ -209,31 +206,29 @@ export const updateProductImageGallery = (req, res, next) => {
 
   const basePath = `${req.protocol}://${req.get("host")}/public/uploads`;
 
-  let imagePaths = []
-  const files = req.files
+  let imagePaths = [];
+  const files = req.files;
 
-  files.map(file => {
-    imagePaths.push(`${basePath}/${file.fileName}`)
-  })
+  files.map((file) => {
+    imagePaths.push(`${basePath}/${file.fileName}`);
+  });
 
   try {
-    const product = await Product.findByIdAndUpdate(_id, {
-      images: imagePaths 
-
-    }, 
-    {
-      new:true
-    })
+    const product = await Product.findByIdAndUpdate(
+      _id,
+      {
+        images: imagePaths,
+      },
+      {
+        new: true,
+      }
+    );
 
     res.status(201).json(product);
-
-    
   } catch (error) {
     return next(new HttpError(error.message, 500));
-
-    
   }
-}
+};
 exports.createProduct = createProduct;
 exports.getProducts = getProducts;
 exports.deleteProduct = deleteProduct;
@@ -242,4 +237,4 @@ exports.getProduct = getProduct;
 exports.getProductCount = getProductCount;
 exports.getFeaturedProducts = getFeaturedProducts;
 exports.getProductsByCategory = getProductsByCategory;
-exports.updateProductImageGallery = updateProductImageGallery
+exports.updateProductImageGallery = updateProductImageGallery;
