@@ -119,7 +119,7 @@ const deleteOrder = async (req, res, next) => {
     const order = await Order.findByIdAndRemove(_id);
 
     if (order) {
-      order.orderItems.map(async (itemId) => {
+      await order.orderItems.map(async (itemId) => {
         await OrderItem.findByIdAndRemove(itemId);
       });
       return res.status(200).json({ message: "order deleted successfully" });
@@ -151,7 +151,7 @@ const getTotalSales = (async = (req, res, next) => {
     ]);
 
     if (!totalSales)
-      return next(new HttpError("total sales could not be generated"));
+      return next(new HttpError("total sales could not be generated", 400));
 
     res.status(200).json(totalSales.pop().totalSales);
   } catch (error) {
