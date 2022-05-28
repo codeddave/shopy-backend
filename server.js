@@ -5,6 +5,10 @@ const morgan = require("morgan");
 const cors = require("cors");
 const errorHandler = require("./middleware/errorHandlerMiddleware");
 const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+
 const authJwt = require("./utils/jwt");
 
 const app = express();
@@ -17,6 +21,9 @@ app.use(morgan("tiny"));
 app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 
 app.use("/users", userRoutes);
+app.use("/users", productRoutes);
+app.use("/users", categoryRoutes);
+app.use("/users", orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 

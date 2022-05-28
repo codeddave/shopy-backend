@@ -144,7 +144,7 @@ const getOrderCount = async (req, res, next) => {
   }
 };
 
-const getTotalSales = (async = (req, res, next) => {
+const getTotalSales = async (req, res, next) => {
   try {
     const totalSales = await Order.aggregate([
       { $group: { _id: null, totalSales: { $sum: "$totalPrice" } } },
@@ -157,7 +157,7 @@ const getTotalSales = (async = (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error.message, 500));
   }
-});
+};
 exports.deleteOrder = deleteOrder;
 exports.getOrders = getOrders;
 exports.getOrder = getOrder;
