@@ -21,9 +21,9 @@ app.use(morgan("tiny"));
 app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 
 app.use("/users", userRoutes);
-app.use("/users", productRoutes);
-app.use("/users", categoryRoutes);
-app.use("/users", orderRoutes);
+app.use("/products", productRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/orders", orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 
