@@ -50,7 +50,7 @@ const register = async (req, res, next) => {
   }
 };
 
-const login = (async = (req, res, next) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password)
     return next(new HttpError("Please provide email and password"), 400);
@@ -76,7 +76,7 @@ const login = (async = (req, res, next) => {
   } catch (error) {
     return next(new HttpError(error.message, 500));
   }
-});
+};
 
 const getUsers = async (req, res, next) => {
   try {

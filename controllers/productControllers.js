@@ -197,7 +197,7 @@ const updateProduct = async (req, res, next) => {
   }
 };
 
-export const updateProductImageGallery = (req, res, next) => {
+const updateProductImageGallery = async (req, res, next) => {
   const { id: _id } = req.params;
   const product = await Product.findById(_id);
   if (!product) {
@@ -236,5 +236,4 @@ exports.updateProduct = updateProduct;
 exports.getProduct = getProduct;
 exports.getProductCount = getProductCount;
 exports.getFeaturedProducts = getFeaturedProducts;
-exports.getProductsByCategory = getProductsByCategory;
 exports.updateProductImageGallery = updateProductImageGallery;
