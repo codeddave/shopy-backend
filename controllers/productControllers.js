@@ -12,7 +12,7 @@ const getProducts = async (req, res, next) => {
   }
 
   try {
-    const products = Product.find(filter).populate("category");
+    const products = await Product.find(filter).populate("category");
     res.status(200).json(products);
   } catch (error) {
     return next(new HttpError(error.message, 404));
