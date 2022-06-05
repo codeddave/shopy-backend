@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res, next) => {
   const {
+    fullName,
     email,
     password,
     phone,
@@ -21,6 +22,7 @@ const register = async (req, res, next) => {
     if (userExists) return next(new HttpError("user exists!", 401));
 
     const user = await User.create({
+      fullName,
       email,
       password,
       phone,
