@@ -44,11 +44,11 @@ const OrderSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.virtual("id").get(function () {
+OrderSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
-UserSchema.set("toJSON", {
+OrderSchema.set("toJSON", {
   virtuals: true,
 });
 
