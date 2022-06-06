@@ -10,9 +10,8 @@ const authJwt = () => {
       { url: /\/public\/uploads(.*)/, methods: ["GET", "OPTIONS"] },
       { url: /\/products(.*)/, methods: ["GET", "OPTIONS"] },
       { url: /\/categories(.*)/, methods: ["GET", "OPTIONS"] },
-
-      "/user/login",
-      "/user/register",
+      "/users/login",
+      "/users/register",
     ],
   });
 };
