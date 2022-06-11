@@ -20,7 +20,6 @@ const register = async (req, res, next) => {
     const userExists = await User.findOne({ email });
 
     if (userExists) return next(new HttpError("user exists!", 401));
-
     const user = await User.create({
       fullName,
       email,
@@ -34,7 +33,6 @@ const register = async (req, res, next) => {
       country,
     });
     await user.save();
-
     const token = jwt.sign(
       {
         email: user.email,
@@ -46,6 +44,7 @@ const register = async (req, res, next) => {
     );
     res.status(201).json(token);
   } catch (error) {
+    console.log(error);
     return next(
       new HttpError("Account could not be created at this time", 409)
     );
