@@ -67,15 +67,16 @@ const login = async (req, res, next) => {
       {
         email: user.email,
         id: user._id,
-        isAdim: user.isAdmin,
+        isAdmin: user.isAdmin,
       },
       process.env.ACCESS_TOKEN_SECRET,
 
       { expiresIn: "1hr" }
     );
+    console.log(token);
     res.status(200).json(token);
   } catch (error) {
-    return next(new HttpError(error.message, 500));
+    console.log(next(new HttpError(error.message, 500)));
   }
 };
 
