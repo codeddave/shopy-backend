@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
     minLength: 6,
     select: false,
   },
-  phone: { type: String, required: true },
+  phone: String,
   isAdmin: { type: Boolean, default: false },
   street: { type: String, default: "" },
   apartment: { type: String, default: "" },

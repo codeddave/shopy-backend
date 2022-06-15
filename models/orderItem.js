@@ -11,11 +11,13 @@ const OrderItemSchema = new mongoose.Schema({
     required: true,
   },
 });
-OrderItemSchema.virtual("id").get(function () {
+OrderItemSchema
+.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
-OrderItemSchema.set("toJSON", {
+OrderItemSchema
+.set("toJSON", {
   virtuals: true,
 });
 
