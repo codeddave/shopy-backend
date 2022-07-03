@@ -50,4 +50,5 @@ router.put(
   uploadOptions.array("images, 4"),
   productControllers.updateProductImageGallery
 );
+router.get("/search", productControllers.searchProducts);
 module.exports = router;
