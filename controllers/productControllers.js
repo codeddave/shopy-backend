@@ -217,6 +217,7 @@ const updateProductImageGallery = async (req, res, next) => {
     const product = await Product.findByIdAndUpdate(
       _id,
       {
+        //$push : { images:  {$each: imagePaths} } This would keep the old images and push the new ones into the array
         images: imagePaths,
       },
       {
@@ -229,6 +230,19 @@ const updateProductImageGallery = async (req, res, next) => {
     return next(new HttpError(error.message, 500));
   }
 };
+
+const searchProducts = async (req, res, next) => {
+  const searchTerm = req.query.searchTerm;
+
+  try {
+    const products = Product.find({
+      name: { $regex: searchTerm, $options: "i" },
+    });
+    res.status(200).json(products);
+  } catch (error) {
+    return next(new HttpError(error.message, 404));
+  }
+};
 exports.createProduct = createProduct;
 exports.getProducts = getProducts;
 exports.deleteProduct = deleteProduct;
@@ -237,3 +251,4 @@ exports.getProduct = getProduct;
 exports.getProductCount = getProductCount;
 exports.getFeaturedProducts = getFeaturedProducts;
 exports.updateProductImageGallery = updateProductImageGallery;
+exports.searchProducts = searchProducts;
