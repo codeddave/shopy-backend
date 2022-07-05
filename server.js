@@ -13,7 +13,7 @@ const authJwt = require("./utils/jwt");
 
 const app = express();
 
-app.use(authJwt());
+//app.use(authJwt());
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(cors());
