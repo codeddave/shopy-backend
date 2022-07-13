@@ -29,6 +29,7 @@ const storage = multer.diskStorage({
 const uploadOptions = multer({ storage: storage });
 
 router.get("/", productControllers.getProducts);
+router.get("/search", productControllers.searchProducts);
 router.get("/:id", productControllers.getProduct);
 router.get("/count", productControllers.getProductCount);
 router.get("/featured/:limit", productControllers.getFeaturedProducts);
@@ -50,5 +51,4 @@ router.put(
   uploadOptions.array("images, 4"),
   productControllers.updateProductImageGallery
 );
-router.get("/search", productControllers.searchProducts);
 module.exports = router;

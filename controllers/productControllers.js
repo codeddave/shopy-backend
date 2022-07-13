@@ -13,7 +13,7 @@ const getProducts = async (req, res, next) => {
 
   try {
     const products = await Product.find(filter).populate("category");
-    res.status(200).json(products);
+    return res.status(200).json(products);
   } catch (error) {
     return next(new HttpError(error.message, 404));
   }
@@ -24,7 +24,7 @@ const getProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(id).populate("category");
     if (!product) return next(new HttpError("Product  does not exist", 404));
-    res.status(200).json(product);
+    return res.status(200).json(product);
   } catch (error) {
     return next(new HttpError(error.message, 500));
   }
@@ -37,7 +37,7 @@ const getProductCount = async (req, res, next) => {
     if (!productCount)
       return next(new HttpError("could not get product count", 404));
 
-    res.status(200).json(productCount);
+    return res.status(200).json(productCount);
   } catch (error) {
     return next(new HttpError(error.message, 500));
   }
@@ -53,7 +53,7 @@ const getFeaturedProducts = async (req, res, next) => {
       featuredProducts = await Product.find({ isFeatured: true });
     }
 
-    res.status(200).json(featuredProducts);
+    return res.status(200).json(featuredProducts);
   } catch (error) {
     return next(new HttpError("Could not get featured Products", 500));
   }
@@ -114,7 +114,7 @@ const createProduct = async (req, res, next) => {
     });
 
     await product.save();
-    res.status(201).json(product);
+    return res.status(201).json(product);
   } catch (error) {
     return next(new HttpError(error.message, 409));
   }
@@ -191,7 +191,7 @@ const updateProduct = async (req, res, next) => {
       },
       { new: true }
     );
-    res.status(201).json(updatedProduct);
+    return res.status(201).json(updatedProduct);
   } catch (error) {
     return next(new HttpError(error.message, 500));
   }
@@ -225,20 +225,25 @@ const updateProductImageGallery = async (req, res, next) => {
       }
     );
 
-    res.status(201).json(product);
+    return res.status(201).json(product);
   } catch (error) {
     return next(new HttpError(error.message, 500));
   }
 };
 
 const searchProducts = async (req, res, next) => {
-  const searchTerm = req.query.searchTerm;
+  console.log("hereeee");
+  let searchTerm = decodeURIComponent(req.query.searchTerm);
+  // const searchTerm = req.query.searchTerm;
+  console.log(searchTerm);
 
   try {
-    const products = Product.find({
+    const products = await Product.find({
       name: { $regex: searchTerm, $options: "i" },
     });
-    res.status(200).json(products);
+    console.log("here");
+    console.log(products);
+    return res.status(200).json(products);
   } catch (error) {
     return next(new HttpError(error.message, 404));
   }
